@@ -1,0 +1,22 @@
+@EndUserText.label : 'Draft table for entity YUPL_I_XL_FILE'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table ytbxlfile_dr {
+
+  key enduser        : syuname not null;
+  key fileid         : sysuuid_x16 not null;
+  filestatus         : abap.char(20);
+  status_msg         : abap.int1;
+  attachment         : abap.rawstring(0);
+  mimetype           : abap.char(128);
+  filename           : abap.char(128);
+  localcreatedby     : abp_creation_user;
+  localcreatedat     : abp_creation_tstmpl;
+  locallastchangedby : abp_locinst_lastchange_user;
+  locallastchangedat : abp_locinst_lastchange_tstmpl;
+  lastchangedat      : abp_lastchange_tstmpl;
+  "%admin"           : include sych_bdl_draft_admin_inc;
+
+}
