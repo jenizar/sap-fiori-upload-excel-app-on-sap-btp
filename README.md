@@ -15,3 +15,4 @@ Demo:
 
 Reference:
 
+1. https://sapcloudapps.wordpress.com/2025/12/03/sap-fiori-upload-excel-app-on-sap-btp-trial/
