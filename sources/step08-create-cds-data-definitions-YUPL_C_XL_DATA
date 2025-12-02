@@ -1,0 +1,22 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'Projection Entity - Excel Data'
+@Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
+define view entity YUPL_C_XL_DATA as projection on YUPL_I_XL_DATA
+
+{
+  key EndUser,
+  key FileId,
+  key LineId,
+  key LineNumber,
+      PoNumber,
+      PoItem,
+      @Semantics.quantity.unitOfMeasure: 'UnitOfMeasure'
+      GrQuantity,
+      UnitOfMeasure,
+      SiteId,
+      HeaderText,
+      /* Associations */
+      _XLFile : redirected to parent YUPL_C_XL_FILE
+}
+
