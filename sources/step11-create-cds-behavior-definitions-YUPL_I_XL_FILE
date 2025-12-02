@@ -1,0 +1,96 @@
+managed; // implementation in class zbp_upl_i_xl_file unique;
+strict ( 2 );
+with draft;
+
+define behavior for YUPL_I_XL_FILE alias XLHead
+implementation in class yupl_cl_bp_xl_file unique
+persistent table ytbxlfile
+lock master
+total etag LastChangedAt
+draft table ytbxlfile_dr
+early numbering
+authorization master ( instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+  field ( readonly ) EndUser, FileId;
+  association _XLData { create; with draft; }
+
+  // Logic to read excel data into associated entity YMAKS_I_XL_DATA
+  action uploadExcelData result [1] $self;
+
+  // Change File Status During Creation of new record
+  determination FillFileStatus on modify { field EndUser; }
+  // Change File Status When file is selected
+  determination FillSelectedStatus on modify { field Attachment; }
+  determination FillStatusMessage on modify { field FileStatus; }
+
+  //determine action ChangeFileName { determination FillSelectedStatus ; }
+
+  side effects
+  {
+    field Attachment affects field FileStatus;
+    field FileStatus affects field Status_msg;
+    //action uploadExcelData affects $self, messages;
+    //determine action ChangeFileName executed on field Attachment affects $self, messages;
+  }
+
+
+  //Draft actions
+  draft action Activate optimized;
+  draft action Edit;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+
+  mapping for ytbxlfile
+    {
+      EndUser            = end_user;
+      FileId             = file_id;
+      FileStatus         = file_status;
+      Attachment         = attachment;
+      Mimetype           = mimetype;
+      Filename           = filename;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+}
+
+define behavior for YUPL_I_XL_DATA alias XLData //alias <alias_name>
+implementation in class yupl_cl_bp_xl_file unique
+persistent table ytbxldata
+draft table ytbxldata_dr
+lock dependent by _XLFile
+authorization dependent by _XLFile
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) EndUser, FileId, LineNumber,
+  PoNumber, PoItem, GrQuantity, UnitOfMeasure,
+  SiteId, HeaderText;
+  field ( readonly, numbering : managed ) LineId;
+  association _XLFile { with draft; }
+
+  action processData result [1] $self;
+
+  mapping for ytbxldata
+    {
+      EndUser       = end_user;
+      FileId        = file_id;
+      LineId        = line_id;
+      LineNumber    = line_no;
+      PoNumber      = po_number;
+      PoItem        = po_item;
+      GrQuantity    = gr_quantity;
+      UnitOfMeasure = unit_of_measure;
+      SiteId        = site_id;
+      HeaderText    = header_text;
+    }
+}
