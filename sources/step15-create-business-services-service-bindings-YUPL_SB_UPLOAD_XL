@@ -1,0 +1,4 @@
+Name : YUPL_SB_UPLOAD_XL
+Description : SB for Service Definition YUPL_SD_XL_FILE
+Binding Type : OData V4 - UI
+Service Definition : YUPL_C_XL_FILE
