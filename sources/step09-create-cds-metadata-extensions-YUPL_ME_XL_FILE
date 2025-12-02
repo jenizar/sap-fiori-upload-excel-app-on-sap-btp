@@ -1,0 +1,61 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+    typeName: 'File Name',
+    typeNamePlural: 'File Name',
+    title: { type: #STANDARD, value: 'FileId' }
+}
+@UI.lineItem: [{criticality: 'Status_msg'}]
+annotate entity YUPL_C_XL_FILE with 
+{
+  @UI.facet: [
+  { id: 'idEndUser',                purpose: #HEADER,   position: 10,
+    type: #DATAPOINT_REFERENCE,     targetQualifier: 'tqEndUser'
+  },
+  { id: 'idChgAt',                   purpose: #HEADER,   position: 20,
+    type: #DATAPOINT_REFERENCE,     targetQualifier: 'tqChgAt'
+  },
+  { id: 'idStatus',                 purpose: #HEADER,   position: 30,
+    type: #DATAPOINT_REFERENCE,     targetQualifier: 'tqStatus'
+  },
+  {
+    id: 'idFile',     purpose: #STANDARD, position: 50,
+    label: 'Loaded File',    type: #IDENTIFICATION_REFERENCE
+  },
+  {
+    id: 'idData',     purpose: #STANDARD, position: 60,
+    label: 'Data Loaded',  type: #LINEITEM_REFERENCE,
+    targetElement: '_XLData'
+  } ]
+
+//  @UI.lineItem: [{ position: 10, label: 'Person Responsible' }]
+  @UI.dataPoint: { qualifier: 'tqEndUser', title: 'Person Responsible' }
+  @UI.identification: [{ type: #FOR_ACTION, label: 'Upload Data', dataAction: 'uploadExcelData' }]
+  EndUser;
+//  FileId;
+  @UI.lineItem: [{ position: 20, label: 'File Status', criticality: 'Status_msg', criticalityRepresentation: #WITHOUT_ICON }]
+  @UI.dataPoint: { qualifier: 'tqStatus', title: 'File Status', criticality: 'Status_msg', 
+                   criticalityRepresentation: #WITH_ICON }
+//  @UI.dataPoint:{ title: 'Status', criticality: 'Status_msg',criticalityRepresentation: #WITH_ICON }
+  FileStatus;
+  @UI.identification: [{ position: 30, label: 'Select Excel File to Upload' }]
+  Attachment;
+  @UI.hidden: true
+  Mimetype;
+  @UI.lineItem: [{ position: 40, label: 'Filename' }]
+  Filename;
+  @UI.hidden: true
+  LocalCreatedBy;
+  @UI.hidden: true
+  LocalCreatedAt;
+  @UI.hidden: true
+  LocalLastChangedBy;
+  @UI.dataPoint: { qualifier: 'tqChgAt', title: 'Last Changed At' }
+  @UI.lineItem: [{ position: 50, label: 'Last Used At' }]
+  LocalLastChangedAt;
+  @UI.hidden: true
+  LastChangedAt;
+  /* Associations */
+  @UI.hidden: true
+  _XLData;
+}
+
