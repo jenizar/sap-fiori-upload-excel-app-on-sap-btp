@@ -1,0 +1,27 @@
+@EndUserText.label: 'Interface View - Excel Data'
+@Metadata.ignorePropagatedAnnotations: true
+@ObjectModel.usageType:{
+    serviceQuality: #X,
+    sizeCategory: #S,
+    dataClass: #MIXED
+}
+define view entity YUPL_I_XL_DATA as select from YTBXLDATA
+   association to parent YUPL_I_XL_FILE as _XLFile on  $projection.EndUser = _XLFile.EndUser
+                                                   and $projection.FileId  = _XLFile.FileId
+
+ 
+{
+  key end_user        as EndUser,
+  key file_id         as FileId,
+  key line_id         as LineId,
+  key line_no         as LineNumber,
+      po_number       as PoNumber,
+      po_item         as PoItem,
+      gr_quantity     as GrQuantity,
+      unit_of_measure as UnitOfMeasure,
+      site_id         as SiteId,
+      header_text     as HeaderText,
+
+      _XLFile
+}
+
