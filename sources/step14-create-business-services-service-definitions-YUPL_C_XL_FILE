@@ -1,0 +1,5 @@
+@EndUserText.label: 'SD for Data Definitions - YUPL_C_XL_FILE'
+define service YUPL_SD_XL_FILE {
+  expose YUPL_C_XL_FILE as XLHead;
+  expose YUPL_C_XL_DATA as XLData;
+}
